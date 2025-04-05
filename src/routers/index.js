@@ -5,6 +5,8 @@ import { studentRecordRouter } from './student-record.router.js';
 import { gradesRouter } from './grades.router.js';
 import { feedbackRouter } from './feedback.router.js';
 import { consultationRouter } from './consultation.router.js';
+import { schoolRouter } from './school.router.js';
+import { userRouter } from './user.router.js';
 
 const apiRouter = express.Router();
 
@@ -27,6 +29,9 @@ apiRouter.use('/api/v1/feedback', feedbackRouter);
 apiRouter.use('/api/v1/consultation', consultationRouter);
 
 // 유저 라우터
-apiRouter.use('/api/v1/users');
+apiRouter.use('/api/v1/users', userRouter);
+
+// 학교 라우터
+apiRouter.use('/api/v1/school', schoolRouter);
 
 export { apiRouter };

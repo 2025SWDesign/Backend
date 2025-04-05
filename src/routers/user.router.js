@@ -11,3 +11,5 @@ const userController = new UserController(userService);
 
 // 담임 설정 및 반 생성
 userRouter.post('/assign-homeroom', userController.assignHomeRoom);
+
+export { userRouter };
