@@ -29,7 +29,7 @@ apiRouter.use('/api/v1/school/:schoolId/feedback', feedbackRouter);
 apiRouter.use('/api/v1/school/:schoolId/consultation', consultationRouter);
 
 // 유저 라우터
-apiRouter.use('//api/v1/school/:schoolId/users', userRouter);
+apiRouter.use('/api/v1/school/:schoolId/users', userRouter);
 
 // 학교 라우터
 apiRouter.use('/api/v1/school', schoolRouter);

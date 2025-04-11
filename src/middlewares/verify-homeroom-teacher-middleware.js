@@ -2,8 +2,9 @@ import { HTTP_STATUS } from '../constants/http-status.constant.js';
 import ClassRepository from '../repositories/class.repository.js';
 import StudentsRepository from '../repositories/students.repository.js';
 import TeacherRepository from '../repositories/teacher.repository.js';
+import { prisma } from '../utils/prisma.utils.js';
 
-const teacherRepository = new TeacherRepository();
+const teacherRepository = new TeacherRepository(prisma);
 const classRepository = new ClassRepository();
 const studentsRepository = new StudentsRepository();
 

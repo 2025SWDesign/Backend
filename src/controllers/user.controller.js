@@ -1,15 +1,19 @@
 import { HTTP_STATUS } from '../constants/http-status.constant.js';
 import UserService from '../services/user.service.js';
 
+
+
 class UserController {
   userService = new UserService();
 
   // 담임 설정 및 반 생성
   assignHomeRoom = async (req, res, next) => {
     try {
+      const userId = req.user.id;
+
       const { grade, gradeClass } = req.body;
 
-      const data = await this.userService.assignHomeRoom(grade, gradeClass);
+      const data = await this.userService.assignHomeRoom(grade, gradeClass, userId);
 
       return res.status(HTTP_STATUS.OK).json({
         status: HTTP_STATUS.OK,

@@ -1,4 +1,4 @@
-import prisma from '../utils/prisma.utils.js';
+import {prisma} from '../utils/prisma.utils.js';
 
 class TeacherRepository {
   // 선생님 조회
