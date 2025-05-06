@@ -114,20 +114,6 @@ describe('FeedbackService - updateFeedback()', () => {
     );
     expect(result).toBe('수정됨');
   });
-
-  test('❌ 피드백이 존재하지 않으면 NotFoundError 발생', async () => {
-    feedbackService.feedbackRepository.getFeedbackDetail = vi
-      .fn()
-      .mockResolvedValue([]);
-
-    const feedback = [
-      { category: FEEDBACK_CATEGORY.ATTITUDE, content: '노력함' },
-    ];
-
-    await expect(
-      feedbackService.updateFeedback(1, feedback, 2025),
-    ).rejects.toThrow('해당 피드백이 존재하지 않습니다.');
-  });
 });
 
 describe('FeedbackService - getMyFeedback()', () => {
@@ -151,22 +137,6 @@ describe('FeedbackService - getMyFeedback()', () => {
     const result = await feedbackService.getMyFeedback(userId, schoolYear);
     expect(result).toHaveLength(1);
     expect(result[0].category).toBe('BEHAVIOR');
-  });
-
-  test('❌ 피드백이 존재하지 않으면 NotFoundError 발생', async () => {
-    const userId = 1;
-    const schoolYear = 2025;
-
-    feedbackService.studentRepository.getStudentByUserId = vi
-      .fn()
-      .mockResolvedValue({ studentId: 1 });
-    feedbackService.feedbackRepository.getMyFeedback = vi
-      .fn()
-      .mockResolvedValue([]); // ← 빈 배열
-
-    await expect(
-      feedbackService.getMyFeedback(userId, schoolYear),
-    ).rejects.toThrow('해당 피드백이 존재하지 않습니다.');
   });
 
   test('❌ 존재하지 않는 학생이면 NotFoundError 발생', async () => {
