@@ -12,6 +12,9 @@ class StudentsService {
       classId,
       schoolId,
     );
+    if (!data || data.length === 0) {
+      throw new NotFoundError('해당 반의 학생이 존재하지 않습니다.');
+    }
     return data;
   };
 
@@ -20,7 +23,7 @@ class StudentsService {
     const student = await this.studentsRepository.getOneStudent(studentId);
     console.log(student);
     if (!student) {
-      throw new NotFoundError(MESSAGES.STUDENT.COMMON.NOT_FOUND);
+      throw new NotFoundError('해당 학생이 존재하지 않습니다.');
     }
     return student;
   };
@@ -37,7 +40,7 @@ class StudentsService {
     //유효성 검사 추가
     const student = await this.studentsRepository.getOneStudent(studentId);
     if (!student) {
-      throw new NotFoundError(MESSAGES.STUDENT.COMMON.NOT_FOUND);
+      throw new NotFoundError('해당 학생이 존재하지 않습니다.');
     }
     const classByGradeAndClass =
       await this.classRepository.findClassByGradeAndClass(
@@ -64,7 +67,7 @@ class StudentsService {
     //유효성 검사 추가
     const student = await this.studentsRepository.getOneStudent(studentId);
     if (!student) {
-      throw new NotFoundError(MESSAGES.STUDENT.COMMON.NOT_FOUND);
+      throw new NotFoundError('해당 학생이 존재하지 않습니다.');
     }
 
     const data = await this.studentsRepository.deleteOneStudent(studentId);
@@ -75,7 +78,7 @@ class StudentsService {
   searchStudent = async (name, schoolId) => {
     const student = await this.studentsRepository.searchStudent(name, schoolId);
     if (!student) {
-      throw new NotFoundError(MESSAGES.STUDENT.COMMON.NOT_FOUND);
+      throw new NotFoundError('해당 학생이 존재하지 않습니다.');
     }
     return student;
   };
