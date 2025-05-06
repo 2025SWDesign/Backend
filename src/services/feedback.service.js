@@ -70,6 +70,16 @@ class FeedbackService {
     if (!existedStudent)
       throw new NotFoundError('해당 학생이 존재하지 않습니다.');
 
+    const existedFeedback = await this.feedbackRepository.getFeedbackDetail(
+      studentId,
+      schoolYear,
+    );
+
+    // ✅ 피드백이 없으면 에러 던지기
+    if (!existedFeedback || existedFeedback.length === 0) {
+      throw new NotFoundError('해당 피드백이 존재하지 않습니다.');
+    }
+
     const updatedFeedback = await this.feedbackRepository.updateFeedback(
       studentId,
       feedback,
@@ -107,7 +117,9 @@ class FeedbackService {
       student.studentId,
       schoolYear,
     );
-
+    if (!getMyFeedback || getMyFeedback.length === 0) {
+      throw new NotFoundError('해당 피드백이 존재하지 않습니다.');
+    }
     return getMyFeedback;
   };
 }
