@@ -82,7 +82,7 @@ class ConsultationService {
   };
 
   //상담 기록 입력
-  createConsultation = async (
+  createConsultation = async ({
     title,
     content,
     date,
@@ -90,9 +90,9 @@ class ConsultationService {
     isPublicToSubject,
     studentId,
     userId,
-  ) => {
+  }) => {
     // 요청 값이 제대로 들어오지 않았다면 에러 반환
-    if (!title || !content || !date || !nextPlan || !isPublicToSubject) {
+    if (!title || !content || !date || !nextPlan) {
       throw new BadRequestError('요청 값이 제대로 들어오지 않았습니다.');
     }
 

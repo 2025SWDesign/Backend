@@ -9,6 +9,7 @@ vi.mock('../../src/repositories/auth.repository.js', () => {
       findUserByEmail = vi.fn().mockResolvedValue(null);
       create = vi.fn().mockResolvedValue({ id: 1, email: 'new@user.com' });
       upsertRefreshToken = vi.fn().mockResolvedValue(undefined);
+      addKakaoInfo = vi.fn().mockResolvedValue({ userId: 1 });
     },
   };
 });
@@ -366,7 +367,7 @@ describe('AuthService - addKakaoInfo()', () => {
     };
 
     await expect(authService.addKakaoInfo(input)).rejects.toThrow(
-      'Bad Request',
+      '학생은 과목을 입력할 수 없습니다.',
     );
   });
 
@@ -383,9 +384,26 @@ describe('AuthService - addKakaoInfo()', () => {
     };
 
     await expect(authService.addKakaoInfo(input)).rejects.toThrow(
-      'Bad Request',
+      '선생님은 학년, 반, 번호를 입력할 수 없습니다.',
     );
   });
+
+  test('정상 입력 시 유저 추가 정보 저장', async () => {
+    const input = {
+      userId: 1,
+      name: '홍길동',
+      role: 'STUDENT',
+      subject: null,
+      photo: 'url',
+      grade: 1,
+      gradeClass: 2,
+      number: 3,
+      schoolName: '서울고등학교',
+    };
+    console.log('🐛 입력값 확인:', input);
+    const result = await authService.addKakaoInfo(input);
+    expect(result).toHaveProperty('userId');
+  }); //오류코드
 
   test('학교가 존재하지 않으면 NotFoundError', async () => {
     authService.schoolRepository.findSchoolBySchoolName = vi
@@ -404,7 +422,7 @@ describe('AuthService - addKakaoInfo()', () => {
     };
 
     await expect(authService.addKakaoInfo(input)).rejects.toThrow(
-      'Bad Request',
+      '해당되는 학교가 없습니다.',
     );
   });
 });
