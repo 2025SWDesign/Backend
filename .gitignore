@@ -1,6 +1,7 @@
 # Created by https://www.toptal.com/developers/gitignore/api/dotenv,windows,visualstudiocode,macos
 # Edit at https://www.toptal.com/developers/gitignore?templates=dotenv,windows,visualstudiocode,macos
 node_modules/
+coverage/
 ### dotenv ###
 .env
 
