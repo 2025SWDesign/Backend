@@ -160,7 +160,7 @@ class AuthService {
   };
 
   // 카카오 로그인 추가 정보 입력
-  addKakaoInfo = async (
+  addKakaoInfo = async ({
     userId,
     name,
     role,
@@ -169,7 +169,7 @@ class AuthService {
     gradeClass,
     number,
     schoolName,
-  ) => {
+  }) => {
     // 유효성 검사
     const requiredData = !!(userId && role && schoolName && name);
     const optionalData = !!(subject || grade || gradeClass || number);

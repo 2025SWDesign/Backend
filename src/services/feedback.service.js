@@ -107,7 +107,9 @@ class FeedbackService {
       student.studentId,
       schoolYear,
     );
-
+    if (!getMyFeedback || getMyFeedback.length === 0) {
+      throw new NotFoundError('해당 피드백이 존재하지 않습니다.');
+    }
     return getMyFeedback;
   };
 }
