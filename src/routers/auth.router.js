@@ -6,7 +6,8 @@ import AuthController from '../controllers/auth.controller.js';
 import { requireRefreshToken } from '../middlewares/require-refresh-token.middleware.js';
 import { requireAccessToken } from '../middlewares/require-access-token.middleware.js';
 import passport from 'passport';
-import '../strategies/kakao.strategy.js';
+import '../strategies/kakao-login.strategy.js';
+import '../strategies/kakao-link.strategy.js';
 
 const authRouter = express.Router();
 const authRepository = new AuthRepository(prisma);
@@ -32,10 +33,10 @@ authRouter.post('/sign-out', requireRefreshToken, authController.signOut);
 // 토큰 재발급
 authRouter.post('/token', requireRefreshToken, authController.Token);
 
-// 카카오 로그인 시도
+// 카카오 로그인
 authRouter.get(
   '/kakao/sign-in',
-  passport.authenticate('kakao', {
+  passport.authenticate('kakao-signIn', {
     session: false,
     authType: 'reprompt',
   }),
@@ -43,17 +44,30 @@ authRouter.get(
 
 // 카카오 로그인 정보 반환
 authRouter.get(
-  '/kakao/callback',
-  passport.authenticate('kakao', {
+  '/kakao/sign-in/callback',
+  passport.authenticate('kakao-signIn', {
     session: false,
   }),
   authController.kakaoSignIn,
 );
 
-// 카카오 로그인 추가 정보 입력
-authRouter.post(
-  '/kakao/info',
-  requireAccessToken(),
-  authController.addKakaoInfo,
+// 카카오 연동
+authRouter.get(
+  '/kakao/connect',
+  requireAccessToken(''),
+  passport.authenticate('kakao-link', {
+    session: false,
+    authType: 'reprompt',
+  }),
+);
+
+// 카카오 연동 콜백
+authRouter.get(
+  '/kakao/connect/callback',
+  requireAccessToken(''),
+  passport.authenticate('kakao-link', {
+    session: false,
+  }),
+  authController.kakaoConnect,
 );
 export { authRouter };

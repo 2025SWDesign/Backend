@@ -52,11 +52,14 @@ jobs:
             echo "REFRESH_TOKEN_SECRET=${{ secrets.REFRESH_TOKEN_SECRET }}" >> .env
             echo "KAKAO_CLIENT_ID=${{ secrets.KAKAO_CLIENT_ID }}" >> .env
             echo "KAKAO_CLIENT_SECRET=${{ secrets.KAKAO_CLIENT_SECRET }}" >> .env
-            echo "KAKAO_CALLBACK_URI=${{ secrets.KAKAO_CALLBACK_URI }}" >> .env
+            echo "KAKAO_SIGNIN_CALLBACK_URI=${{ secrets.KAKAO_SIGNIN_CALLBACK_URI }}" >> .env
+            echo "KAKAO_CONNECT_CALLBACK_URI=${{ secrets.KAKAO_CONNECT_CALLBACK_URI }}" >> .env
             echo "ACCESS_TOKEN_EXPIRED_IN=${{ secrets.ACCESS_TOKEN_EXPIRED_IN }}" >> .env
             echo "REFRESH_TOKEN_EXPIRED_IN=${{ secrets.REFRESH_TOKEN_EXPIRED_IN }}" >> .env
             echo "CRYPTO_SECRET_KEY=${{ secrets.CRYPTO_SECRET_KEY }}" >> .env
             echo "RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}" >> .env
+            echo "SENTRY_DSN=${{ secrets.SENTRY_DSN }}" >> .env
+            echo "SLACK_WEBHOOK_URL=${{ secrets.SLACK_WEBHOOK_URL }}" >> .env
 
 
             # 의존성 설치

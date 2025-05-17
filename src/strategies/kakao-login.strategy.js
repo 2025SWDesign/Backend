@@ -5,24 +5,25 @@ import AuthService from '../services/auth.service.js';
 import {
   KAKAO_CLIENT_SECRET,
   KAKAO_CLIENT_ID,
-  KAKAO_CALLBACK_URL,
+  KAKAO_SIGNIN_CALLBACK_URI,
 } from '../constants/env.constant.js';
 import ClassRepository from '../repositories/class.repository.js';
+import { NotFoundError } from '../errors/http.error.js';
 
 const authService = new AuthService();
 const classRepository = new ClassRepository(prisma);
 passport.use(
+  'kakao-signIn',
   new kakaoStrategy(
     {
       clientID: KAKAO_CLIENT_ID,
       clientSecret: KAKAO_CLIENT_SECRET,
-      callbackURL: KAKAO_CALLBACK_URL,
+      callbackURL: KAKAO_SIGNIN_CALLBACK_URI,
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
-        console.log('Kakao profile:', profile);
         const existedUser = await prisma.user.findUnique({
-          where: { email: profile._json.kakao_account.email },
+          where: { kakaoEmail: profile._json.kakao_account.email },
           include: { teacher: true, student: true },
         });
         if (existedUser) {
@@ -33,7 +34,6 @@ passport.use(
             schoolId: existedUser.schoolId,
           });
           // 담임일 경우 classId 반환
-          console.log(existedUser);
           const teacherId =
             existedUser.role === 'TEACHER'
               ? existedUser.teacher.teacherId
@@ -49,30 +49,7 @@ passport.use(
 
           return done(null, userData);
         } else {
-          // 존재하지 않은 유저일 때, 회원가입
-          const user = await prisma.user.create({
-            data: {
-              school: {
-                connect: { schoolId: 1 },
-              },
-              name: null,
-              role: null,
-              email: profile._json.kakao_account.email,
-              password: null,
-            },
-          });
-          const token = await authService.generateAuthTokens({
-            id: user.id,
-          });
-          const userWithToken = {
-            ...user,
-            token,
-          };
-          return done(null, {
-            userWithToken,
-            needsExtraInfo: true,
-            message: 'MESSAGES.AUTH.SOCIAL.KAKAKO.NEED_INFO',
-          });
+          throw new NotFoundError('연동되지 않는 유저입니다.');
         }
       } catch (error) {
         console.error('Kakao login error:', error);

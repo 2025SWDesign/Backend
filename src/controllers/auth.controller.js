@@ -163,6 +163,18 @@ class AuthController {
       next(error);
     }
   };
+
+  kakaoConnect = async (req, res, next) => {
+    try {
+      console.log('카카오 연동');
+      return res.status(HTTP_STATUS.OK).json({
+        status: HTTP_STATUS.OK,
+        message: '카카오 연동 완료',
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 
 export default AuthController;
