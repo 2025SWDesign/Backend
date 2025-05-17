@@ -53,6 +53,8 @@ model Student {
     userId      Int      @unique @map("user_id")
     classId     Int?     @map("class_id")
     parentsId   Int?     @unique @map("parents_id")
+    grade       Int?
+    gradeClass  Int?
     number      Int?
     phonenumber String?
     homenumber  String?
