@@ -1,4 +1,5 @@
 import { BadRequestError } from '../errors/http.error.js';
+import { NotFoundError } from '../errors/http.error.js';
 import ConsultationRepository from '../repositories/consultation.repository.js';
 import StudentsRepository from '../repositories/students.repository.js';
 import TeacherRepository from '../repositories/teacher.repository.js';

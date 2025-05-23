@@ -15,9 +15,9 @@ const studentsController = new StudentsController(studentsService);
 // 반 학생 목록 조회
 studentsRouter.get(
   '/class/:classId/students',
-  //requireAccessToken(''),
-  //verifySchoolUser,
-  //verifyHomeroomTeacher,
+  requireAccessToken(''),
+  verifySchoolUser,
+  //verifyHomeroomTeacher, 어드민도 선생도 봐야함
   studentsController.getClassStudent,
 );
 
